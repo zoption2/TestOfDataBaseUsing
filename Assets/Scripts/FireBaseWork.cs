@@ -4,18 +4,27 @@ using UnityEngine;
 using Firebase;
 using Firebase.Auth;
 
-public class FireBaseWork : MonoBehaviour, IDatabase
+public class FireBaseWork : IDatabase
 {
+    public FireBaseWork()
+    {
+        CheckInFirebase();
+    }
+
     private DependencyStatus dependencyStatus;
-    private DatabaseController databaseController;
     private FirebaseAuth authentication;
     private FirebaseUser user;
 
-    private void Awake()
+    public FirebaseAuth GetAuthentication
     {
-        databaseController = DatabaseController.Instance;
+        get 
+        {
+            return authentication;
+        }
+      
     }
-    private void Start()
+
+    private void CheckInFirebase()
     {
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
             dependencyStatus = task.Result;
@@ -24,6 +33,7 @@ public class FireBaseWork : MonoBehaviour, IDatabase
                 InitializeFirebase();
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
+               SetUpThisBaseAsMain();
             }
             else
             {
@@ -40,6 +50,6 @@ public class FireBaseWork : MonoBehaviour, IDatabase
 
     private void SetUpThisBaseAsMain()
     {
-        databaseController.SetUpDatabase(this);
+        DatabaseController.Instance.SetUpDatabase(this);
     }
 }
