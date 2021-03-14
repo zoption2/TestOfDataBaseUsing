@@ -6,24 +6,17 @@ public class DatabaseController : MonoBehaviour, IMenuUI
 {
     public static DatabaseController Instance;
     public static IDatabase dataBase;
+    public static IMenuUI menuUI;
 
-    private static bool isDatabaseReady = false;
 
-    public bool IsDatabaseReady
+    public void BackToLoginMenu()
     {
-        get 
-        { 
-            return isDatabaseReady;
-        }
-        private set { }
+        menuUI.BackToLoginMenu();
     }
-
-
-
 
     public void ConnectToFirebase()
     {
-        IDatabase baseToConnect = new FireBaseWork();
+        IDatabase baseToConnect = gameObject.AddComponent<FireBaseWork>();
     }
 
     public void SetUpDatabase(IDatabase database)
@@ -31,8 +24,7 @@ public class DatabaseController : MonoBehaviour, IMenuUI
         if (dataBase == null && database != null)
         {
             dataBase = database;
-            IsDatabaseReady = true;
-            Debug.LogFormat("Database {0} is ready to use ass singlebase!", dataBase.ToString());
+            Debug.LogFormat($"Database {dataBase.GetType().Name.ToString()} is ready to use ass singlebase!");
         }
         else
         {
@@ -51,7 +43,7 @@ public class DatabaseController : MonoBehaviour, IMenuUI
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(this);
         }
     }
 

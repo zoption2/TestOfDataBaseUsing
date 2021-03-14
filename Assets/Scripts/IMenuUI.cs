@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IMenuUI 
 {
-
+    void BackToLoginMenu();
 }
